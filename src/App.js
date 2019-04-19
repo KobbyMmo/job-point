@@ -1,25 +1,149 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { Field, Form, Formik } from "formik";
+
+import Checkbox from "./CheckBox/CheckBox";
+import CheckboxGroup from "./CheckBox/CheckBoxGroup";
+import Response from "./Response/Response";
+import "./App.css";
+import SpaceSeparatedInput from "./SpaceSeperatedInput/SpaceSeperatedInput";
+
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "",
+      applied: false
+    };
+  }
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        {this.state.applied ? (
+          <div className="container">
+            <Response name={this.state.name} />
+          </div>
+        ) : (
+          <div className="container main">
+            <div className="row">
+              <h1>Apply Now</h1>
+            </div>
+            <div className="row">
+              <h4 style={{ textAlign: "center" }}>
+                We'd love to work with you!
+              </h4>
+            </div>
+            <div className="row input-container">
+              <Formik
+                initialValues={{
+                  name: "",
+                  email: "",
+                  about: "",
+                  teams: [],
+                  urls: []
+                }}
+                onSubmit={(values, { setSubmitting }) => {
+                  setSubmitting(true)
+                  console.log(values);
+                  this.setState({applied:true, name: values.name });
+                }}
+              >
+                {({
+                  values,
+                  errors,
+                  touched,
+                  setFieldValue,
+                  isSubmitting,
+                  setFieldTouched
+                }) => (
+                  <Form>
+                    <div className="col-xs-12 col-sm-6">
+                      <div style={{paddingLeft:"0px"}} className="col-xs-12">
+                        <div className="styled-input">
+                          <Field name="name" type="text" required />
+                          <label>Name</label>
+                        </div>
+                      </div>
+                      <div style={{paddingLeft:"0px"}} className="col-xs-12 col-sm-12">
+                        <div className="styled-input ">
+                          <Field type="text" name="email" required />
+                          <label>Email</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-xs-12 col-sm-6">
+                      <CheckboxGroup
+                        id="teams"
+                        label="Choose your team(s)"
+                        value={values.teams}
+                        error={errors.teams}
+                        touched={touched.teams}
+                        onChange={setFieldValue}
+                        onBlur={setFieldTouched}
+                      >
+                        <Field
+                          component={Checkbox}
+                          name="teams"
+                          id="android"
+                          label="Android"
+                        />
+                        <Field
+                          component={Checkbox}
+                          name="teams"
+                          id="ios"
+                          label="IOS"
+                        />
+                        <Field
+                          component={Checkbox}
+                          name="teams"
+                          id="frontend"
+                          label="Frontend"
+                        />
+                        <Field
+                          component={Checkbox}
+                          name="teams"
+                          id="backend"
+                          label="Backend"
+                        />
+                        <Field
+                          component={Checkbox}
+                          name="teams"
+                          id="design"
+                          label="Design"
+                        />
+                      </CheckboxGroup>
+                    </div>
+
+                    <div className="col-xs-12 ">
+                      <div className="styled-input wide ">
+                        <Field component={"textarea"} name="about" required />
+                        <label>About Me</label>
+                      </div>
+                      <div className="styled-input wide">
+                        <SpaceSeparatedInput
+                          onChange={value => setFieldValue("urls", value)}
+                          required
+                          label="Links Online"
+                          title="A selection of urls(comma or space separated), portfolios, projects, LinkedIn, GitHub, Bitbucket"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="col-xs-12">
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="btn-lrg submit-btn"
+                      >
+                        Apply Now
+                      </button>
+                    </div>
+                  </Form>
+                )}
+              </Formik>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
