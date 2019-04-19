@@ -1,0 +1,8 @@
+.icon{
+    margin:2px 8px;
+    color:#999;
+
+  }
+  .icon:hover,.icon:active,.icon:focus{
+      color: #fafafa;
+  }
