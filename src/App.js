@@ -1,13 +1,27 @@
 import React, { Component } from "react";
 import { Field, Form, Formik } from "formik";
-
 import Checkbox from "./CheckBox/CheckBox";
 import CheckboxGroup from "./CheckBox/CheckBoxGroup";
 import Response from "./Response/Response";
+import * as Yup from "yup";
 import "./App.css";
 import SpaceSeparatedInput from "./SpaceSeperatedInput/SpaceSeperatedInput";
 
-
+const schema = Yup.object().shape({
+  name: Yup.string()
+    .max(50, "Do you really have such a long Name?")
+    .required("Please enter your name, We dont want to think you are a Bot"),
+  email: Yup.string()
+    .email("This doesn't look like an email.")
+    .required("So how do you expect us to contact you?"),
+  about: Yup.string()
+    .min(300, "Is that all you know about you?")
+    .required("Tell us something about you."),
+  urls: Yup.array(Yup.string().url("A valid URL Looks like https://obedamoasi.com")).required(
+    "Like Seriously you are not on the internet?"
+  ),
+  teams: Yup.array(Yup.string()).required("Choose a destination")
+});
 class App extends Component {
   constructor(props) {
     super(props);
@@ -42,6 +56,7 @@ class App extends Component {
                   teams: [],
                   urls: []
                 }}
+                validationSchema={schema}
                 onSubmit={(values, { setSubmitting }) => {
                   setSubmitting(true)
                   console.log(values);
