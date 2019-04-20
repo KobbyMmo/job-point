@@ -164,6 +164,11 @@ class App extends Component {
                       <div className="styled-input wide ">
                         <Field component={"textarea"} name="about" required />
                         <label>About Me</label>
+                        <ErrorMessage name="about">
+                        {msg => (
+                          <div className="error error-message">{msg}</div>
+                        )}
+                      </ErrorMessage>
                       </div>
                       <div className="styled-input wide">
                         <SpaceSeparatedInput
