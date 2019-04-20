@@ -27,7 +27,10 @@ h1 {
   color: white;
   text-align: center;
 }
-
+.error, .error-message{
+  font-size: .8em;
+  color: #f00;
+}
 h4 {
   font-family: "Roboto", sans-serif, "arial";
   font-weight: 400;
