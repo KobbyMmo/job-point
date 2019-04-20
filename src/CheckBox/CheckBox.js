@@ -2,10 +2,8 @@ import React from 'react';
 import './CheckBox.css';
 const Checkbox = ({
     field: { name, value, onChange, onBlur },
-    form: { errors, touched, setFieldValue },
     id,
     label,
-    className,
     ...props
   }) => {
     return (
