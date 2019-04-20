@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Field, Form, Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { ToastContainer, toast } from "react-toastify";
 
 import { sendApplication } from "./ServerAPI/serverAPI";
 
@@ -63,10 +64,16 @@ class App extends Component {
                 validationSchema={schema}
                 onSubmit={(values, { setSubmitting }) => {
                   setSubmitting(true);
-                  this.sendApplication(values).then(res => {
-                    setSubmitting(false);
-                    this.setState({ applied: true, name: values.name });
-                  });
+                  sendApplication(values)
+                    .then(res => {
+                      setSubmitting(false);
+                      this.setState({ applied: true, name: values.name });
+                    })
+                    .catch(error => {
+                      toast.error(
+                        "Oops Something went wrong, Try again. If it persist contact the admin"
+                      );
+                    });
                 }}
               >
                 {({
@@ -188,6 +195,17 @@ class App extends Component {
             </div>
           </div>
         )}
+        <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnVisibilityChange
+          draggable
+          pauseOnHover
+        />
       </div>
     );
   }
