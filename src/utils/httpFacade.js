@@ -3,7 +3,7 @@ import axios from "axios";
 
 const http = axios.create({
   baseURL: API_BASE_URL,
-  headers: { "Content-Type": "application/json" }
+  headers: { "Content-Type": "application/json",  'Access-Control-Allow-Origin': '*', }
 });
 
 
