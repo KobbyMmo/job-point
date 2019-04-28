@@ -12,7 +12,10 @@ const HttpFacade = function httpFacade() {
     const queryString = Object.keys(query)
       .map(key => key + "=" + query[key])
       .join("&");
-    return queryString;
+    if (queryString)
+       return `?${queryString}`;
+    else
+       return "";
   }
 
   return {
@@ -28,7 +31,7 @@ const HttpFacade = function httpFacade() {
     patch: function patch(options) {
       const { url, body, query } = options;
       const queryString = buildQeryString(query);
-      const _url = `${API_BASE_URL}/${url}?${queryString}`;
+      const _url = `${API_BASE_URL}/${url}${queryString}`;
       return http.patch(_url, body).then(response => {
         console.log(response);
         return response.data;
